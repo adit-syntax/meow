@@ -1,0 +1,932 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ════════════════════════════════════════════════════════════════
+   SKYGUARD AI — BESPOKE MISSION ARCHITECTURE DESIGN SYSTEM
+   High-Precision Aviation & Meteorological Operations Console
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  --bg-canvas: #0a0c12;
+  --bg-surface: #0f131d;
+  --bg-surface-elevated: #151a27;
+  --bg-card: rgba(18, 23, 34, 0.88);
+  --border-subtle: rgba(255, 255, 255, 0.065);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --accent-primary: #0284c7;
+  --accent-cyan: #06b6d4;
+  --accent-indigo: #4f46e5;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  /* Universal text selectability across all pages, cards, tables, overlays and globe */
+  *, *::before, *::after {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, span, div, strong, b, em, i, td, th, li, label, code, pre, small {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  ::selection {
+    background: rgba(56, 189, 248, 0.45) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  ::-moz-selection {
+    background: rgba(56, 189, 248, 0.45) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Custom sleek scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.35);
+  }
+
+  :focus-visible {
+    outline: none;
+  }
+  button:focus, button:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+/* ── Deep Minimal Canvas Shell ───────────────────────────────────── */
+.meridian-root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0a0c12;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Top Header Bar ───────────────────────────────────────────────── */
+.m-header {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(12, 13, 18, 0.96);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 40;
+  backdrop-filter: blur(12px);
+}
+
+/* ── Horizontal Navigation Bar (Modern Segmented Console Tabs) ─────── */
+.m-tabnav {
+  display: flex;
+  align-items: center;
+  padding: 4px 16px;
+  background: rgba(10, 11, 16, 0.98);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.m-tabnav::-webkit-scrollbar {
+  display: none;
+}
+
+.m-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  transition: all 0.15s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.m-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.m-tab.active {
+  color: #ffffff;
+  font-weight: 600;
+  background: rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.25);
+}
+
+.m-tab-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.m-tab.active .m-tab-icon {
+  color: #f43f5e;
+  opacity: 1;
+}
+
+/* ── Content Viewport ─────────────────────────────────────────────── */
+.m-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Precision Modern Cards ───────────────────────────────────────── */
+.m-card {
+  background: #11131a;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.m-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.m-card-watermark {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  opacity: 0.035;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+.m-stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #78879e;
+}
+
+.m-stat-value {
+  font-size: 27px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+/* ── Buttons & Segmented Pills ────────────────────────────────────── */
+.m-btn-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.m-btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.4);
+}
+
+.m-btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.m-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Status Micro-Pills ───────────────────────────────────────────── */
+.m-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  display: inline-block;
+}
+
+.m-status-nominal {
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.m-status-warning {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+}
+
+.m-status-critical {
+  background: #f43f5e;
+  box-shadow: 0 0 6px rgba(244, 63, 94, 0.5);
+}
+
+/* ── Animation Utilities ──────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Leaflet Dark Theme Overrides ─────────────────────────────────── */
+.leaflet-dark-tooltip {
+  background: rgba(12, 14, 21, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(8px);
+}
+.leaflet-dark-tooltip:before {
+  border-top-color: rgba(12, 14, 21, 0.95) !important;
+}
+.leaflet-container {
+  background: #090a0f !important;
+  font-family: inherit;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   CYBERPUNK / TACTICAL LIGHT THEME (Precision Day Ops)
+   ════════════════════════════════════════════════════════════════ */
+html.light,
+html[data-theme="light"],
+.light {
+  --bg-canvas: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.98);
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --accent-primary: #0284c7;
+  --accent-cyan: #0284c7;
+  --accent-indigo: #4338ca;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+}
+
+html.light,
+html.light body,
+html.light #root,
+html.light .meridian-root {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LIGHT THEME / TACTICAL DAY OPS POLISH (Cyberpunk Precision Aesthetic)
+   ════════════════════════════════════════════════════════════════ */
+
+html.light {
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+}
+
+html.light body,
+html.light #root,
+html.light .meridian-root {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html.light .m-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .m-tabnav {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+html.light .m-tab {
+  color: #475569 !important;
+}
+
+html.light .m-tab:hover {
+  color: #0f172a !important;
+  background: #f1f5f9 !important;
+}
+
+html.light .m-tab.active {
+  color: #0369a1 !important;
+  background: #eff6ff !important;
+  border-color: #bae6fd !important;
+}
+
+html.light .m-card,
+html.light .bg-\[\#11131a\],
+html.light .bg-\[\#0c0e17\],
+html.light .bg-\[\#0a0c12\],
+html.light .bg-\[\#0f131d\],
+html.light .bg-\[\#151a27\],
+html.light .bg-\[\#090d18\],
+html.light .bg-\[\#080c18\],
+html.light .bg-\[\#080b16\],
+html.light .bg-\[\#0d0f17\],
+html.light .bg-\[\#111726\],
+html.light .bg-\[\#0e131f\],
+html.light .bg-\[\#060914\],
+html.light .bg-\[\#111722\],
+html.light .bg-\[\#101524\],
+html.light .bg-\[\#0c101a\],
+html.light .bg-\[\#121826\],
+html.light .bg-\[\#0d121e\],
+html.light .bg-\[\#0e1320\],
+html.light .bg-\[\#141a2c\],
+html.light .bg-\[\#121828\],
+html.light .bg-\[\#0c1018\],
+html.light .bg-\[\#0c101c\],
+html.light .bg-\[\#0f1422\],
+html.light .bg-\[\#090d16\],
+html.light .bg-\[\#060810\],
+html.light .bg-\[\#070911\],
+html.light .bg-\[\#0a0d16\],
+html.light .bg-\[\#070a12\],
+html.light .bg-\[\#04060a\],
+html.light .bg-\[\#04060c\],
+html.light .bg-\[\#0a0e1a\],
+html.light .bg-\[\#02040a\],
+html.light .bg-\[\#070a14\],
+html.light .bg-\[\#0c0e18\],
+html.light .bg-\[\#10192A\],
+html.light .bg-\[\#152033\],
+html.light .bg-\[\#1B2A44\],
+html.light .bg-\[\#0F172A\],
+html.light .bg-\[\#0d121f\],
+html.light .bg-\[\#161B22\],
+html.light .bg-\[\#111418\],
+html.light .bg-\[\#0B0E14\],
+html.light .bg-\[\#090e1a\],
+html.light .bg-\[\#0d121f\],
+html.light .bg-black\/20,
+html.light .bg-black\/30,
+html.light .bg-black\/40,
+html.light .bg-black\/50,
+html.light .bg-black\/60,
+html.light .bg-rose-950\/15,
+html.light .bg-rose-950\/20,
+html.light .bg-rose-950\/25,
+html.light .bg-rose-950\/30,
+html.light .bg-rose-950\/40,
+html.light .bg-amber-950\/20,
+html.light .bg-amber-950\/30,
+html.light .bg-amber-950\/40,
+html.light .bg-emerald-950\/20,
+html.light .bg-emerald-950\/30,
+html.light .bg-emerald-950\/40,
+html.light .bg-sky-950\/20,
+html.light .bg-sky-950\/30,
+html.light .bg-sky-950\/40 {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05) !important;
+  color: #0f172a !important;
+}
+
+html.light input[type="text"],
+html.light input[type="datetime-local"],
+html.light input[type="search"],
+html.light input[type="number"],
+html.light input[type="file"],
+html.light select,
+html.light textarea {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+  background-color: #ffffff !important;
+  border-color: #0284c7 !important;
+  outline: none !important;
+}
+
+html.light select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html.light .m-stat-value {
+  color: #0f172a !important;
+}
+
+html.light .m-stat-label {
+  color: #64748b !important;
+}
+
+html.light .text-white {
+  color: #0f172a;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LIGHT MODE HIGH-CONTRAST ACCESSIBILITY OVERRIDES
+   Transforms pale/yellow text into rich, legible high-contrast tones
+   ════════════════════════════════════════════════════════════════ */
+html.light .text-yellow-100,
+html.light .text-yellow-200,
+html.light .text-yellow-300,
+html.light .text-yellow-400,
+html.light .text-yellow-500 {
+  color: #854d0e !important; /* deep gold / yellow-800 */
+}
+
+html.light .text-amber-100,
+html.light .text-amber-200,
+html.light .text-amber-300,
+html.light .text-amber-400,
+html.light .text-amber-500 {
+  color: #92400e !important; /* deep amber-800 (>7:1 contrast) */
+}
+
+html.light .text-orange-200,
+html.light .text-orange-300,
+html.light .text-orange-400,
+html.light .text-orange-500 {
+  color: #9a3412 !important; /* deep orange-800 */
+}
+
+html.light .text-emerald-200,
+html.light .text-emerald-300,
+html.light .text-emerald-400 {
+  color: #065f46 !important; /* deep emerald-800 */
+}
+
+html.light .text-green-200,
+html.light .text-green-300,
+html.light .text-green-400 {
+  color: #166534 !important; /* deep green-800 */
+}
+
+html.light .text-sky-200,
+html.light .text-sky-300,
+html.light .text-sky-400 {
+  color: #075985 !important; /* deep sky-800 */
+}
+
+html.light .text-blue-200,
+html.light .text-blue-300,
+html.light .text-blue-400 {
+  color: #1e40af !important; /* deep blue-800 */
+}
+
+html.light .text-cyan-200,
+html.light .text-cyan-300,
+html.light .text-cyan-400 {
+  color: #155e75 !important; /* deep cyan-800 */
+}
+
+html.light .text-indigo-200,
+html.light .text-indigo-300,
+html.light .text-indigo-400 {
+  color: #3730a3 !important; /* deep indigo-800 */
+}
+
+html.light .text-rose-200,
+html.light .text-rose-300,
+html.light .text-rose-400 {
+  color: #9f1239 !important; /* deep rose-800 */
+}
+
+html.light .text-red-200,
+html.light .text-red-300,
+html.light .text-red-400 {
+  color: #991b1b !important; /* deep red-800 */
+}
+
+html.light .text-purple-200,
+html.light .text-purple-300,
+html.light .text-purple-400 {
+  color: #581c87 !important; /* deep purple-900 */
+}
+
+/* Light Theme Translucent Badges */
+html.light .bg-amber-500\/10,
+html.light .bg-amber-500\/15,
+html.light .bg-amber-500\/20,
+html.light .bg-amber-500\/25,
+html.light .bg-amber-500\/30 {
+  background-color: #fef3c7 !important;
+  border-color: #fde68a !important;
+  color: #92400e !important;
+}
+
+html.light .bg-rose-500\/10,
+html.light .bg-rose-500\/15,
+html.light .bg-rose-500\/20,
+html.light .bg-rose-500\/25 {
+  background-color: #ffe4e6 !important;
+  border-color: #fecdd3 !important;
+  color: #9f1239 !important;
+}
+
+html.light .bg-emerald-500\/10,
+html.light .bg-emerald-500\/15,
+html.light .bg-emerald-500\/20 {
+  background-color: #d1fae5 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+}
+
+html.light .bg-sky-500\/10,
+html.light .bg-sky-500\/15,
+html.light .bg-sky-500\/20 {
+  background-color: #e0f2fe !important;
+  border-color: #bae6fd !important;
+  color: #075985 !important;
+}
+
+/* Solid Buttons and High-Emphasis Fill States */
+html.light .bg-rose-500,
+html.light .bg-rose-600,
+html.light .bg-sky-600,
+html.light .bg-sky-500,
+html.light .bg-emerald-600,
+html.light .bg-emerald-500,
+html.light .bg-slate-900,
+html.light .m-btn-primary,
+html.light .bg-rose-500 *,
+html.light .bg-rose-600 *,
+html.light .bg-sky-600 *,
+html.light .bg-sky-500 *,
+html.light .bg-emerald-600 *,
+html.light .bg-emerald-500 *,
+html.light .bg-slate-900 * {
+  color: #ffffff !important;
+}
+
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+html.light .text-slate-500 {
+  color: #64748b !important;
+}
+
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.05\],
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.08\] {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .border-white\/\[0\.04\],
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.07\],
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.1\],
+html.light .border-white\/\[0\.12\],
+html.light .border-white\/\[0\.15\] {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .divide-white\/\[0\.03\],
+html.light .divide-white\/\[0\.04\],
+html.light .divide-white\/\[0\.06\] {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .m-btn-secondary {
+  background: #f1f5f9 !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light .m-btn-secondary:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+html.light thead {
+  background: #f8fafc !important;
+}
+
+html.light thead th {
+  color: #475569 !important;
+  background: #f8fafc !important;
+}
+
+html.light tr:hover {
+  background: #f1f5f9 !important;
+}
+
+html.light .leaflet-container {
+  background: #f1f5f9 !important;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15) !important;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.3) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   UIVERSE.IO THEME SWITCH (By JkHuger)
+   ════════════════════════════════════════════════════════════════ */
+:root {
+  --transDur: 0.3s;
+  --primary: #0284c7;
+  --primaryT: rgba(2, 132, 199, 0.25);
+}
+
+.theme {
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 8px;
+}
+
+.theme__fill,
+.theme__icon {
+  transition: 0.3s;
+}
+
+.theme__fill {
+  display: none;
+}
+
+.theme__icon,
+.theme__toggle {
+  z-index: 1;
+}
+
+.theme__icon,
+.theme__icon-part {
+  position: absolute;
+}
+
+.theme__icon {
+  display: block;
+  top: 0.5em;
+  left: 0.5em;
+  width: 1.5em;
+  height: 1.5em;
+  pointer-events: none;
+}
+
+.theme__icon-part {
+  border-radius: 50%;
+  box-shadow: 0.4em -0.4em 0 0.5em hsl(0,0%,100%) inset;
+  top: calc(50% - 0.5em);
+  left: calc(50% - 0.5em);
+  width: 1em;
+  height: 1em;
+  transition: box-shadow var(--transDur) ease-in-out,
+		opacity var(--transDur) ease-in-out,
+		transform var(--transDur) ease-in-out;
+  transform: scale(0.5);
+}
+
+.theme__icon-part ~ .theme__icon-part {
+  background-color: hsl(0,0%,100%);
+  border-radius: 0.05em;
+  top: 50%;
+  left: calc(50% - 0.05em);
+  transform: rotate(0deg) translateY(0.5em);
+  transform-origin: 50% 0;
+  width: 0.1em;
+  height: 0.2em;
+}
+
+.theme__icon-part:nth-child(3) {
+  transform: rotate(45deg) translateY(0.45em);
+}
+
+.theme__icon-part:nth-child(4) {
+  transform: rotate(90deg) translateY(0.45em);
+}
+
+.theme__icon-part:nth-child(5) {
+  transform: rotate(135deg) translateY(0.45em);
+}
+
+.theme__icon-part:nth-child(6) {
+  transform: rotate(180deg) translateY(0.45em);
+}
+
+.theme__icon-part:nth-child(7) {
+  transform: rotate(225deg) translateY(0.45em);
+}
+
+.theme__icon-part:nth-child(8) {
+  transform: rotate(270deg) translateY(0.5em);
+}
+
+.theme__icon-part:nth-child(9) {
+  transform: rotate(315deg) translateY(0.5em);
+}
+
+.theme__label,
+.theme__toggle,
+.theme__toggle-wrap {
+  position: relative;
+}
+
+.theme__toggle,
+.theme__toggle:before {
+  display: block;
+}
+
+.theme__toggle {
+  background-color: hsl(48,90%,85%);
+  border-radius: 25% / 50%;
+  box-shadow: 0 0 0 0.125em var(--primaryT);
+  padding: 0.25em;
+  width: 6em;
+  height: 3em;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: background-color var(--transDur) ease-in-out,
+		box-shadow 0.15s ease-in-out,
+		transform var(--transDur) ease-in-out;
+}
+
+.theme__toggle:before {
+  background-color: hsl(48,90%,55%);
+  border-radius: 50%;
+  content: "";
+  width: 2.5em;
+  height: 2.5em;
+  transition: 0.3s;
+}
+
+.theme__toggle:focus {
+  box-shadow: 0 0 0 0.125em var(--primary);
+  outline: transparent;
+}
+
+/* Checked */
+.theme__toggle:checked {
+  background-color: hsl(198,90%,15%);
+}
+
+.theme__toggle:checked:before,
+.theme__toggle:checked ~ .theme__icon {
+  transform: translateX(3em);
+}
+
+.theme__toggle:checked:before {
+  background-color: hsl(198,90%,55%);
+}
+
+.theme__toggle:checked ~ .theme__fill {
+  transform: translateX(0);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(1) {
+  box-shadow: 0.2em -0.2em 0 0.2em hsl(0,0%,100%) inset;
+  transform: scale(1);
+  top: 0.2em;
+  left: -0.2em;
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part ~ .theme__icon-part {
+  opacity: 0;
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(2) {
+  transform: rotate(45deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(3) {
+  transform: rotate(90deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(4) {
+  transform: rotate(135deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(5) {
+  transform: rotate(180deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(6) {
+  transform: rotate(225deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(7) {
+  transform: rotate(270deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(8) {
+  transform: rotate(315deg) translateY(0.8em);
+}
+
+.theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(9) {
+  transform: rotate(360deg) translateY(0.8em);
+}
+
+.theme__toggle-wrap {
+  margin: 0 0.25em;
+  display: flex;
+  align-items: center;
+}
+
+
+
