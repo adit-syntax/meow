@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="32" y1="4" x2="32" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#9f1239" stop-opacity="0.1"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="64" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#881337" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <!-- Base Shield Shape -->
+  <path d="M32 6L10 16V30C10 44.5 19.4 55.4 32 58C44.6 55.4 54 44.5 54 30V16L32 6Z" fill="url(#shieldGrad)" filter="url(#shadow)"/>
+  <!-- Inner Shield Highlight -->
+  <path d="M32 9L13 17.5V30C13 42.6 21.1 52.2 32 54.8C42.9 52.2 51 42.6 51 30V17.5L32 9Z" stroke="white" stroke-opacity="0.25" stroke-width="1.5" fill="url(#glowGrad)"/>
+  <!-- Atmospheric Weather Pulse & Checkmark -->
+  <path d="M22 32.5L28.5 39L42 25.5" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
