@@ -23,8 +23,25 @@ export class TelemetryStreamClient {
 
   public connect(): void {
     this.shouldReconnect = true;
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws/live`;
+    let wsUrl = '';
+    const configuredWs = (import.meta as any).env?.VITE_WS_URL;
+    const configuredApi = (import.meta as any).env?.VITE_API_URL;
+
+    if (configuredWs) {
+      wsUrl = `${configuredWs.replace(/\/$/, '')}/ws/live`;
+    } else if (configuredApi) {
+      try {
+        const parsed = new URL(configuredApi);
+        const wsProto = parsed.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${wsProto}//${parsed.host}/ws/live`;
+      } catch (_) {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${protocol}//${window.location.host}/ws/live`;
+      }
+    } else {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      wsUrl = `${protocol}//${window.location.host}/ws/live`;
+    }
 
     try {
       this.ws = new WebSocket(wsUrl);

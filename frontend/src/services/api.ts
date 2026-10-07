@@ -19,7 +19,9 @@ import {
   SystemMetrics,
 } from '../types';
 
-export const API_BASE_URL = '/api';
+export const API_BASE_URL = (import.meta as any).env?.VITE_API_URL
+  ? `${(import.meta as any).env.VITE_API_URL.replace(/\/$/, '')}/api`
+  : '/api';
 
 // In-memory cache store & in-flight request deduplication map
 const apiCache = new Map<string, { data: any; timestamp: number }>();
