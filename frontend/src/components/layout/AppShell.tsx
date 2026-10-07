@@ -290,8 +290,26 @@ export function AppShell() {
             ? 'border-white/[0.08] bg-[#0c0d12]/95 backdrop-blur-md text-white'
             : 'border-slate-200 bg-white/95 backdrop-blur-md text-slate-900 shadow-xs'
         }`}>
-          {/* Left: Brand + Station Selector */}
+          {/* Left: Hamburger Menu + Brand + Station Selector */}
           <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
+            {/* Hamburger Navigation Button (Always visible on mobile & toggleable on desktop) */}
+            <button
+              onClick={() => setIsMobileNavOpen((prev) => !prev)}
+              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
+                isDark
+                  ? (isMobileNavOpen
+                      ? 'bg-rose-500/25 border-rose-500/60 text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.3)]'
+                      : 'bg-white/[0.05] hover:bg-white/[0.1] border-white/[0.12] text-slate-200 hover:text-white')
+                  : (isMobileNavOpen
+                      ? 'bg-sky-100 border-sky-400 text-sky-900 shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700 hover:text-slate-900')
+              }`}
+              title={isMobileNavOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+              aria-label="Toggle Navigation Menu"
+            >
+              {isMobileNavOpen ? <X size={17} /> : <Menu size={17} />}
+            </button>
+
             <div
               className="flex items-center gap-2 cursor-pointer group select-none"
               onClick={() => navigate('/synoptic')}
@@ -636,24 +654,6 @@ export function AppShell() {
               title="System Settings"
             >
               <Settings2 size={14} />
-            </button>
-
-            {/* Mobile Navigation Hamburger Toggle Button */}
-            <button
-              onClick={() => setIsMobileNavOpen((prev) => !prev)}
-              className={`md:hidden p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                isDark
-                  ? (isMobileNavOpen
-                      ? 'bg-rose-500/20 border-rose-500/50 text-rose-300'
-                      : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.1] text-slate-300 hover:text-white')
-                  : (isMobileNavOpen
-                      ? 'bg-rose-50 border-rose-300 text-rose-700'
-                      : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-700 hover:text-slate-900')
-              }`}
-              title={isMobileNavOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
-              aria-label="Toggle Navigation Menu"
-            >
-              {isMobileNavOpen ? <X size={14} /> : <Menu size={14} />}
             </button>
           </div>
         </header>
