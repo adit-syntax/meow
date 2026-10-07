@@ -26,6 +26,8 @@ import {
   Sun,
   Moon,
   BookOpen,
+  Menu,
+  X,
 } from 'lucide-react';
 import { TelemetryStreamClient } from '../../services/websocket';
 import { fetchStations, fetchAnomalies } from '../../services/api';
@@ -259,6 +261,12 @@ export function AppShell() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  useEffect(() => {
+    setIsMobileNavOpen(false);
+  }, [location.pathname]);
 
   const toggleStreaming = () => setIsStreaming((s) => !s);
   const isActive = (path: string) => location.pathname.startsWith(path);
@@ -629,23 +637,90 @@ export function AppShell() {
             >
               <Settings2 size={14} />
             </button>
+
+            {/* Mobile Navigation Hamburger Toggle Button */}
+            <button
+              onClick={() => setIsMobileNavOpen((prev) => !prev)}
+              className={`md:hidden p-1.5 rounded-lg border transition-colors cursor-pointer ${
+                isDark
+                  ? (isMobileNavOpen
+                      ? 'bg-rose-500/20 border-rose-500/50 text-rose-300'
+                      : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.1] text-slate-300 hover:text-white')
+                  : (isMobileNavOpen
+                      ? 'bg-rose-50 border-rose-300 text-rose-700'
+                      : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-700 hover:text-slate-900')
+              }`}
+              title={isMobileNavOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+              aria-label="Toggle Navigation Menu"
+            >
+              {isMobileNavOpen ? <X size={14} /> : <Menu size={14} />}
+            </button>
           </div>
         </header>
 
-        {/* ══ HORIZONTAL TAB NAVIGATION ═══════════════════════════════ */}
-        <nav className={`border-b sticky top-14 z-20 px-2.5 sm:px-6 lg:px-8 transition-colors ${
+        {/* ══ COLLAPSIBLE MOBILE NAVIGATION DRAWER (Mobile Only) ═════ */}
+        {isMobileNavOpen && (
+          <nav
+            className={`md:hidden border-b sticky top-14 z-20 px-3 py-3 animate-fadeIn transition-all shadow-xl backdrop-blur-xl ${
+              isDark
+                ? 'border-white/[0.12] bg-[#0c0e17]/98 text-white'
+                : 'border-slate-200 bg-white/98 text-slate-900'
+            }`}
+          >
+            <div className="grid grid-cols-2 gap-2">
+              {allTabs.map((tab) => {
+                const Icon = TAB_ICONS[tab.icon] || Compass;
+                const active = isActive(tab.path);
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      navigate(tab.path);
+                      setIsMobileNavOpen(false);
+                    }}
+                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all text-left cursor-pointer border ${
+                      isDark
+                        ? (active
+                            ? 'bg-rose-500/15 border-rose-500/40 text-rose-300 font-bold shadow-xs'
+                            : 'bg-white/[0.03] hover:bg-white/[0.06] border-white/[0.06] text-slate-300 hover:text-white')
+                        : (active
+                            ? 'bg-sky-50 border-sky-300 text-sky-900 font-bold shadow-xs'
+                            : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900')
+                    }`}
+                  >
+                    <Icon
+                      size={15}
+                      className={
+                        active
+                          ? (isDark ? 'text-rose-400' : 'text-sky-600')
+                          : (isDark ? 'text-slate-400' : 'text-slate-500')
+                      }
+                    />
+                    <div className="truncate">
+                      <span className="block truncate font-semibold">{tab.label}</span>
+                      <span className="block text-[10px] text-slate-500 font-mono">{tab.shortcut}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+        )}
+
+        {/* ══ DESKTOP HORIZONTAL TAB NAVIGATION (Desktop Only) ════════ */}
+        <nav className={`hidden md:block border-b sticky top-14 z-20 px-4 lg:px-8 transition-colors ${
           isDark
             ? 'border-white/[0.08] bg-[#090b10]/95 backdrop-blur-md'
             : 'border-slate-200 bg-[#f8fafc]/95 backdrop-blur-md'
         }`}>
-          <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-1.5 -mb-px scrollbar-none [touch-action:pan-x]">
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1.5 -mb-px scrollbar-none">
             {allTabs.map((tab) => {
               const Icon = TAB_ICONS[tab.icon] || Compass;
               const active = isActive(tab.path);
               return (
                 <button
                   key={tab.id}
-                  className={`relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all duration-150 whitespace-nowrap shrink-0 font-sans cursor-pointer outline-none focus:outline-none focus:ring-0 focus-visible:outline-none ${
+                  className={`relative flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all duration-150 whitespace-nowrap shrink-0 font-sans cursor-pointer outline-none focus:outline-none focus:ring-0 focus-visible:outline-none ${
                     isDark
                       ? (active
                           ? 'text-white bg-white/[0.06] border border-white/10 font-semibold'
@@ -670,7 +745,7 @@ export function AppShell() {
                   {/* Clean Active Indicator */}
                   {active && (
                     <div
-                      className={`absolute bottom-0 left-2 sm:left-2.5 right-2 sm:right-2.5 h-0.5 rounded-full ${
+                      className={`absolute bottom-0 left-2.5 right-2.5 h-0.5 rounded-full ${
                         isDark ? 'bg-rose-500' : 'bg-[#0284c7]'
                       }`}
                     />
