@@ -59,10 +59,19 @@ export const MistyChatDrawer: React.FC = () => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const [position, setPosition] = useState<{ x: number; y: number }>(() => ({
-    x: Math.max(16, window.innerWidth - 420),
-    y: Math.max(60, window.innerHeight - 660),
+    x: typeof window !== 'undefined' ? Math.max(16, window.innerWidth - 420) : 100,
+    y: typeof window !== 'undefined' ? Math.max(60, window.innerHeight - 660) : 100,
   }));
 
   const [size, setSize] = useState<{ width: number; height: number }>({
@@ -267,13 +276,15 @@ export const MistyChatDrawer: React.FC = () => {
       {/* ══ 2. CHAT WINDOW ═════════════════════════════════════════════ */}
       {isOpen && (
         <div
-          className={`fixed z-50 flex flex-col rounded-3xl shadow-2xl transition-[border-color,box-shadow] select-none font-sans overflow-hidden ${
+          className={`fixed z-50 flex flex-col rounded-2xl sm:rounded-3xl shadow-2xl transition-[border-color,box-shadow] select-none font-sans overflow-hidden ${
             isDark
               ? 'bg-[#0f141d] text-slate-100 border border-slate-800 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)]'
               : 'bg-white text-slate-900 border border-slate-200/90 shadow-[0_20px_45px_-10px_rgba(0,102,255,0.2)]'
           }`}
           style={
-            isMaximized
+            isMobile
+              ? { top: '56px', left: '8px', right: '8px', bottom: '8px', width: 'auto', height: 'auto' }
+              : isMaximized
               ? { top: '64px', left: '16px', right: '16px', bottom: '16px', width: 'auto', height: 'auto' }
               : {
                   top: `${position.y}px`,
@@ -283,8 +294,8 @@ export const MistyChatDrawer: React.FC = () => {
                 }
           }
         >
-          {/* ── 8 RESIZE HANDLES ───────────────────────────────── */}
-          {!isMaximized && (
+          {/* ── 8 RESIZE HANDLES (Desktop Only) ────────────────── */}
+          {!isMaximized && !isMobile && (
             <>
               <div
                 onMouseDown={(e) => handleResizeMouseDown('top', e)}

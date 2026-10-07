@@ -724,7 +724,7 @@ export const StationGlobe3D: React.FC<StationGlobe3DProps> = ({
           ? `fixed inset-0 z-50 w-screen h-screen overflow-hidden select-none font-sans animate-fadeIn ${
               isDark ? 'bg-[#02040a]' : 'bg-[#f8fafc]'
             }`
-          : `relative w-full h-[520px] rounded-2xl overflow-hidden select-none transition-all ${
+          : `relative w-full h-[340px] sm:h-[440px] md:h-[500px] lg:h-[540px] rounded-2xl overflow-hidden select-none transition-all ${
               isDark
                 ? 'bg-[#02040a] border border-white/[0.08] shadow-[0_0_80px_rgba(0,0,0,0.9)]'
                 : 'bg-[#f8fafc] border border-slate-200 shadow-sm'

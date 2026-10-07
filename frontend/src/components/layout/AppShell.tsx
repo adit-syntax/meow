@@ -277,24 +277,24 @@ export function AppShell() {
     >
       <div className={`meridian-root ${isDark ? 'dark' : 'light'}`}>
         {/* ══ TOP HEADER BAR ═════════════════════════════════════════ */}
-        <header className={`h-14 px-4 sm:px-6 lg:px-8 border-b sticky top-0 z-30 flex items-center justify-between gap-3 transition-colors ${
+        <header className={`h-14 px-2.5 sm:px-4 lg:px-8 border-b sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-3 transition-colors ${
           isDark
             ? 'border-white/[0.08] bg-[#0c0d12]/95 backdrop-blur-md text-white'
             : 'border-slate-200 bg-white/95 backdrop-blur-md text-slate-900 shadow-xs'
         }`}>
           {/* Left: Brand + Station Selector */}
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
             <div
-              className="flex items-center gap-2.5 cursor-pointer group select-none"
+              className="flex items-center gap-2 cursor-pointer group select-none"
               onClick={() => navigate('/synoptic')}
               title="SkyGuard AI — Return to Synoptic Grid"
             >
               <img
                 src="/logo-icon.png"
                 alt="SkyGuard AI Icon"
-                className="size-7.5 sm:size-8 object-contain transition-transform group-hover:scale-105 duration-200 drop-shadow-sm"
+                className="size-7 sm:size-8 object-contain transition-transform group-hover:scale-105 duration-200 drop-shadow-sm"
               />
-              <div className="flex items-center">
+              <div className="hidden sm:flex items-center">
                 <img
                   src={isDark ? "/logo-text-dark.png" : "/logo-text-light.png"}
                   alt="SkyGuard AI"
@@ -307,20 +307,20 @@ export function AppShell() {
             <div className="relative" ref={stationDropdownRef}>
               <button
                 onClick={() => setIsStationDropdownOpen((p) => !p)}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
+                className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
                   isDark
                     ? 'bg-white/[0.03] hover:bg-white/[0.06] border-white/[0.08] text-slate-200'
                     : 'bg-slate-100 hover:bg-slate-200/80 border-slate-200 text-slate-800'
                 }`}
                 title="Select Synoptic Station"
               >
-                <MapPin size={11} className="text-rose-400" />
-                <span className="font-semibold">{currentStationObj.station_id}</span>
-                <ChevronDown size={11} className="opacity-70" />
+                <MapPin size={11} className="text-rose-400 shrink-0" />
+                <span className="font-semibold truncate max-w-[90px] sm:max-w-none">{currentStationObj.station_id}</span>
+                <ChevronDown size={11} className="opacity-70 shrink-0" />
               </button>
 
               {isStationDropdownOpen && (
-                <div className={`absolute left-0 mt-1.5 w-72 rounded-xl shadow-2xl z-50 py-1.5 animate-fadeIn font-mono text-xs backdrop-blur-xl flex flex-col max-h-[420px] border ${
+                <div className={`absolute left-0 mt-1.5 w-64 sm:w-72 rounded-xl shadow-2xl z-50 py-1.5 animate-fadeIn font-mono text-xs backdrop-blur-xl flex flex-col max-h-[420px] border ${
                   isDark ? 'bg-[#0c0e17]/95 border-white/[0.12] text-slate-300' : 'bg-white border-slate-200 text-slate-900'
                 }`}>
                   <div className={`px-3 py-2 border-b flex items-center justify-between ${isDark ? 'border-white/[0.08]' : 'border-slate-100'}`}>
@@ -401,11 +401,11 @@ export function AppShell() {
           </div>
 
           {/* ══ CENTER: DOCS BUTTON + ASK MISTY + THEME TOGGLE ═══ */}
-          <div className="flex items-center justify-center gap-2.5 flex-1 max-w-lg mx-auto">
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 shrink-0 sm:flex-1 sm:max-w-lg sm:mx-auto">
             {/* Documentation Button */}
             <button
               onClick={() => navigate('/docs')}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer border select-none ${
+              className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer border select-none ${
                 location.pathname === '/docs'
                   ? (isDark ? 'bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]' : 'bg-amber-50 hover:bg-amber-100 border-amber-300 text-amber-900 shadow-xs')
                   : (isDark ? 'bg-white/[0.04] hover:bg-white/[0.08] border-white/10 text-slate-300 hover:text-white' : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700')
@@ -413,11 +413,11 @@ export function AppShell() {
               title="SkyGuard AI — System Documentation & Field Manual"
             >
               <BookOpen size={13} className={location.pathname === '/docs' ? (isDark ? 'text-amber-400' : 'text-amber-600') : (isDark ? 'text-amber-500' : 'text-amber-600')} />
-              <span>Docs</span>
+              <span className="hidden sm:inline">Docs</span>
             </button>
 
             <div
-              className={`flex items-center gap-2 px-3 py-1 rounded-full border transition-all select-none ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full border transition-all select-none ${
                 isDark
                   ? (isAwake ? 'bg-[#111726] border-white/15 text-slate-200 hover:border-white/25 shadow-sm' : 'bg-[#0e131f] border-white/[0.08] text-slate-400 hover:border-white/[0.15]')
                   : (isAwake ? 'bg-slate-100 border-slate-300 text-slate-900 hover:border-slate-400 shadow-xs' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300')
@@ -438,7 +438,7 @@ export function AppShell() {
                 className="flex items-center gap-1.5 cursor-pointer font-sans"
               >
                 <span className={`text-xs font-semibold tracking-wide ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  Ask Misty
+                  <span className="hidden xs:inline">Ask </span>Misty
                 </span>
                 <span
                   className={`w-1.5 h-1.5 rounded-full ${
@@ -448,7 +448,7 @@ export function AppShell() {
               </div>
 
               {/* Separator */}
-              <div className={`w-px h-3 mx-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-300'}`} />
+              <div className={`hidden sm:block w-px h-3 mx-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-300'}`} />
 
               {/* Sleep / Awake Toggle Button */}
               <button
@@ -456,7 +456,7 @@ export function AppShell() {
                   e.stopPropagation();
                   toggleAwake();
                 }}
-                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-medium transition-all cursor-pointer border ${
+                className={`hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-medium transition-all cursor-pointer border ${
                   isDark
                     ? (isAwake ? 'bg-white/10 hover:bg-white/15 text-slate-200 border-white/10' : 'bg-white/[0.04] hover:bg-white/[0.08] text-slate-400 border-white/[0.08]')
                     : (isAwake ? 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 shadow-xs' : 'bg-slate-200/60 hover:bg-slate-200 text-slate-600 border-slate-200')
@@ -467,12 +467,12 @@ export function AppShell() {
               </button>
             </div>
 
-            {/* Uiverse Animated Theme Switch on the far right of Ask Misty */}
+            {/* Uiverse Animated Theme Switch */}
             <ThemeToggleSwitch />
           </div>
 
           {/* Right Controls */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Persona Switcher Dropdown */}
             <div className="relative" ref={personaDropdownRef}>
               <button
@@ -633,19 +633,19 @@ export function AppShell() {
         </header>
 
         {/* ══ HORIZONTAL TAB NAVIGATION ═══════════════════════════════ */}
-        <nav className={`border-b sticky top-14 z-20 px-4 sm:px-6 lg:px-8 transition-colors ${
+        <nav className={`border-b sticky top-14 z-20 px-2.5 sm:px-6 lg:px-8 transition-colors ${
           isDark
             ? 'border-white/[0.08] bg-[#090b10]/95 backdrop-blur-md'
             : 'border-slate-200 bg-[#f8fafc]/95 backdrop-blur-md'
         }`}>
-          <div className="flex items-center gap-1.5 overflow-x-auto py-1.5 -mb-px scrollbar-none">
+          <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-1.5 -mb-px scrollbar-none [touch-action:pan-x]">
             {allTabs.map((tab) => {
               const Icon = TAB_ICONS[tab.icon] || Compass;
               const active = isActive(tab.path);
               return (
                 <button
                   key={tab.id}
-                  className={`relative flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all duration-150 whitespace-nowrap shrink-0 font-sans cursor-pointer outline-none focus:outline-none focus:ring-0 focus-visible:outline-none ${
+                  className={`relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all duration-150 whitespace-nowrap shrink-0 font-sans cursor-pointer outline-none focus:outline-none focus:ring-0 focus-visible:outline-none ${
                     isDark
                       ? (active
                           ? 'text-white bg-white/[0.06] border border-white/10 font-semibold'
@@ -670,7 +670,7 @@ export function AppShell() {
                   {/* Clean Active Indicator */}
                   {active && (
                     <div
-                      className={`absolute bottom-0 left-2.5 right-2.5 h-0.5 rounded-full ${
+                      className={`absolute bottom-0 left-2 sm:left-2.5 right-2 sm:right-2.5 h-0.5 rounded-full ${
                         isDark ? 'bg-rose-500' : 'bg-[#0284c7]'
                       }`}
                     />
@@ -682,7 +682,7 @@ export function AppShell() {
         </nav>
 
         {/* ══ MAIN VIEWPORT ═══════════════════════════════════════════ */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 flex flex-col gap-5">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-2.5 sm:p-5 lg:p-8 flex flex-col gap-4 sm:gap-5">
           <Outlet />
         </main>
 
