@@ -1,11 +1,11 @@
-backend/
-data/
-models/
-machine_learning/
-hardware/
-docs/
-scripts/
-tests/
+/backend/
+/data/
+/models/
+/machine_learning/
+/hardware/
+/docs/
+/scripts/
+/tests/
 requirements.txt
 requirements-dev.txt
 docker-compose.yml
@@ -15,4 +15,3 @@ run.bat
 *.py
 *.pt
 *.joblib
-*.csv
